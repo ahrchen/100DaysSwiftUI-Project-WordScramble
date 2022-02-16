@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var totalPoints = 0
+    
     var body: some View {
         NavigationView {
             List {
@@ -50,7 +52,11 @@ struct ContentView: View {
                 }
             }
         }
+        Text("Total Points: \(totalPoints)")
+            .font(.largeTitle)
     }
+       
+        
         
     
     func addNewWord() {
@@ -86,6 +92,7 @@ struct ContentView: View {
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
+        totalPoints += answer.count
         newWord = ""
     }
     
@@ -94,6 +101,7 @@ struct ContentView: View {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy:"\n")
                 rootWord = allWords.randomElement() ?? "silkworm"
+                totalPoints = 0
                 return
             }
         }
