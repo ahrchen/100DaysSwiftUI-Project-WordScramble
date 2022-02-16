@@ -42,6 +42,13 @@ struct ContentView: View {
             } message: {
                 Text(errorMessage)
             }
+            .toolbar {
+                ToolbarItemGroup(placement: .automatic) {
+                    Button("Reset") {
+                        startGame()
+                    }
+                }
+            }
         }
     }
         
@@ -63,6 +70,11 @@ struct ContentView: View {
         
         guard isReal(word: answer) else {
             wordError(title: "Word not recognized", message: "You can't just make them up, you know")
+            return
+        }
+        
+        guard isThreeCharOrMore(word: answer) else {
+            wordError(title: "Word is less than three characters", message: "All answers must be more than three characters")
             return
         }
         
@@ -116,6 +128,10 @@ struct ContentView: View {
     
     func isNotRootWord(word: String) -> Bool {
         word != rootWord
+    }
+    
+    func isThreeCharOrMore(word: String) -> Bool {
+        word.count >= 3
     }
     
     func wordError(title: String, message: String) {
